@@ -103,7 +103,9 @@ function main() {
         done
     done
 
-    [ "$status" -eq 1 ] && echo $status >> $resultFile
+    if [ "$status" -eq 1 ]; then
+        echo $status >> $resultFile
+    fi
 }
 
 main

@@ -4,7 +4,7 @@ resultFile=compile.failed
 issueFile=issue.log
 bodyText="Automatic compilation failed
 
-$(cat $issueFile)
+$(cat $issueFile 2>/dev/null)
 
 You can view the details through the following link
 
