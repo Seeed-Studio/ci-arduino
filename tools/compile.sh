@@ -73,6 +73,8 @@ function init() {
     installCore   seeeduino:nrf52         https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
     installCore   seeeduino:renesas_uno   https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
     installCore   rp2040:rp2040           https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+
+    pip3 install adafruit-nrfutil
 }
 
 function main() {
