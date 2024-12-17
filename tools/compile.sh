@@ -20,6 +20,11 @@ fqbnList=(
 exampleList=$(ls examples)
 
 function installDependLib() {
+    if [ ! -f $dependFile ]; then
+        echo "No library dependencies required"
+        return
+    fi
+
     cat $dependFile | while read repo
     do
         repo_name=$(echo $repo | cut -d '/' -f 2)
