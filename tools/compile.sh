@@ -2,6 +2,7 @@
 
 status=0
 ignoreFile=ignore.list
+dependFile=depend.list
 logFile=build.log
 issueFile=issue.log
 resultFile=compile.failed
@@ -17,6 +18,19 @@ fqbnList=(
     "esp32:esp32:XIAO_ESP32S3"
 )
 exampleList=$(ls examples)
+
+function installDependLib() {
+    cat $dependFile | while read repo
+    do
+        repo_name=$(echo $repo | cut -d '/' -f 2)
+        git clone --depth 1 https://github.com/$repo.git $HOME/Arduino/libraries/$repo_name
+        if [ $? -eq 0 ]; then
+            echo "$repo clone successful"
+        else
+            echo "$repo clone failed"
+        fi
+    done
+}
 
 function installRepoAsLib() {
     mkdir -p "$HOME/Arduino/libraries"
@@ -49,7 +63,9 @@ function buildSketch() {
 
 function init() {
     echo -e "\e[33mStart initializing the compilation environment\e[0m"
+
     installRepoAsLib
+    installDependLib
 
     installCore   arduino:avr
     installCore   esp32:esp32
