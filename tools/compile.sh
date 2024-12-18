@@ -17,7 +17,7 @@ fqbnList=(
     "esp32:esp32:XIAO_ESP32C6"
     "esp32:esp32:XIAO_ESP32S3"
 )
-exampleList=$(ls examples)
+exampleList=$(find examples/ -name "*ino"  | xargs dirname | sort | awk '{gsub("examples/", ""); print}')
 
 function installDependLib() {
     if [ ! -f $dependFile ]; then
