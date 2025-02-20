@@ -1,6 +1,7 @@
 #!/bin/bash
 
 status=0
+IFS=$'\n'
 ignoreFile=ignore.list
 dependFile=depend.list
 logFile=build.log
@@ -17,7 +18,7 @@ fqbnList=(
     "esp32:esp32:XIAO_ESP32C6"
     "esp32:esp32:XIAO_ESP32S3"
 )
-exampleList=$(find examples/ -name "*ino"  | xargs dirname | sort | awk '{gsub("examples/", ""); print}')
+exampleList=$(find examples/ -name "*ino" | xargs -I {} dirname {} | sort | awk '{gsub("examples/", ""); print}')
 
 function installDependLib() {
     if [ ! -f $dependFile ]; then
@@ -61,7 +62,7 @@ function installCore() {
 
 # $1 fqbn, $2 path
 function buildSketch() {
-    arduino-cli compile --fqbn $1 $2 --warnings more
+    arduino-cli compile --fqbn $1 "$2" --warnings more
 }
 
 
@@ -96,7 +97,7 @@ function main() {
                 continue
             fi
 
-            buildSketch $fqbn examples/$example
+            buildSketch $fqbn "examples/$example"
 
             if [ $? -eq 0 ]; then
                 echo -e "\e[32mBuild $example on $fqbn successful\e[0m\n "
